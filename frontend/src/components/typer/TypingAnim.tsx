@@ -8,8 +8,6 @@ const TypingAnim = () => {
         1000, // wait 1s before replacing "Mice" with "Hamsters"
         'Built With Gemini Pro 🤖',
         1000,
-        'Your own customized GPT',
-        1000,
       ]}
       speed={50}
       style={{ fontSize: '60px', display: 'inline-block', color:'white', textShadow:'1px 1px 20px #000'}}
