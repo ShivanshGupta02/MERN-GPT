@@ -1,7 +1,7 @@
 import { Avatar, Box, Button, IconButton, Typography } from '@mui/material'
 import { useAuth } from '../context/AuthContext';
 import { red } from "@mui/material/colors"
-import ChatItem from '../chat/ChatItem';
+import ChatItem from '../components/chat/ChatItem';
 import { IoMdSend } from 'react-icons/io';
 import { useEffect,useLayoutEffect, useRef, useState } from 'react';
 import { deleteUserChats, getUserChats, sendChatRequest } from '../helpers/api-communicator';
@@ -99,7 +99,7 @@ const Chat = () => {
       </Box>
       <Box sx={{ display: "flex", flex: { md: 0.8, xs: 1, sm: 1 }, flexDirection: 'column', px: 3 }}>
         <Typography sx={{ textAlign: "center", fontSize: "40px", color: "white", mx: 'auto', mb: 2 }}>
-          Model- GPT 3.5 Turbo
+          Gemini Pro
         </Typography>
         <Box sx={{
           width: "100%",

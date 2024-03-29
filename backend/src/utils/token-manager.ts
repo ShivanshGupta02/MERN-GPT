@@ -4,6 +4,7 @@ import { COOKIE_NAME } from "./constants.js";
 export const createToken = (id:string, email:string, expiresIn)=>{
     const payload = {id,email};
     const token = jwt.sign(payload,process.env.JWT_SECRET,{
+        // expirty time is added in payload by jwt
         expiresIn:"7d", 
     });
     return token;

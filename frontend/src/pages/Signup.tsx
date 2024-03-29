@@ -41,7 +41,7 @@ const Signup = () => {
         mt={8}
         display={{md:"flex", sm:"none", xs:"none"}}
       >
-          <img src="airobot.png" alt="Robot" style={{width:"400px"}} />
+          <img src="robott.png" alt="Robot" style={{width:"400px"}} />
       </Box>
       <Box display={"flex"} 
             flex={{xs:1, md:0.5}} 
