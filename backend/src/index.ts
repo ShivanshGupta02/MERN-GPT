@@ -3,7 +3,7 @@ import morgan from "morgan";
 import express from "express";
 import {config} from "dotenv";
 import cookieParser from "cookie-parser";
-import appRouter from "./routes/index.js";
+import appRouter from "./routes/routes.js";
 import {connectToDatabase} from "./db/connection.js";
 config();
 
@@ -12,9 +12,9 @@ const app = express();
 // middlewares
 app.use(cors({origin:"http://localhost:5173", credentials:true}));
 app.use(express.json());
-app.use(cookieParser(process.env.COOKIE_SECRET));
+app.use(cookieParser());
 
-// for loggin request and response on console
+// for logging request and response on console
 app.use(morgan("dev"));
 
 app.use("/api/v1",appRouter);

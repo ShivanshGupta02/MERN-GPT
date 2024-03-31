@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom'
 const Signup = () => {
   const auth = useAuth();
   const handleSubmit = async (e:React.FormEvent<HTMLFormElement>)=>{
-    e.preventDefault();
+    e.preventDefault(); // prevents page reload when user clicks the submit button
     const formData = new FormData(e.currentTarget);
     const name = formData.get("name") as string;
     const email = formData.get("email") as string;

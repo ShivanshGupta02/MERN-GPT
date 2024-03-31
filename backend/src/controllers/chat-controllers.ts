@@ -1,5 +1,5 @@
 import { Request,Response, NextFunction } from "express"
-import User from "../models/User.js";
+import User from "../models/models.js";
 import {config} from "../config/gemini-config.js"
 
 export const generateChatCompletion = async(req : Request, res:Response, next : NextFunction)=>{
@@ -15,12 +15,12 @@ export const generateChatCompletion = async(req : Request, res:Response, next : 
         // storing the new query message of the user
         user.chats.push({content:message, role:"user"});
         
-        // send all chats with new one to Gemini API
         
         const model = await config();
+
+        // response of the text prompt from GEMINI API
         const result = await model.generateContent(message);
 
-        // get latest response 
         const chatResponse = await result.response;
 
         // storing the response of the GEMINI API
@@ -41,11 +41,7 @@ export const sendChatsToUser = async(req:Request,res:Response,next:NextFunction)
         if(!user) {
             return res.status(401).send("User not registered or Token malfunctioned");
         }
-        // console.log(user._id.toString(), res.locals.jwtData.id);
-        if(user._id.toString() !==res.locals.jwtData.id){
-            return res.status(401).send("Permissions didn't match");
-        }
-
+        
         return res.status(200).json({message:'ok', chats : user.chats});
     } catch (error) {
         console.log(error);
@@ -60,10 +56,7 @@ export const deleteChats = async(req:Request,res:Response,next:NextFunction)=>{
         if(!user) {
             return res.status(401).send("User not registered or Token malfunctioned");
         }
-        // console.log(user._id.toString(), res.locals.jwtData.id);
-        if(user._id.toString() !==res.locals.jwtData.id){
-            return res.status(401).send("Permissions didn't match");
-        }
+
         //  @ts-ignore
         user.chats = [];
         await user.save();
