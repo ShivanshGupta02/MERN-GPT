@@ -1,6 +1,6 @@
 import { NextFunction, Request,Response } from "express";
 import User from "../models/models.js"
-import {hash,compare} from 'bcrypt';
+import {hash,compare, genSalt} from 'bcrypt';
 import { createToken } from "../utils/token-manager.js";
 import { COOKIE_NAME } from "../utils/constants.js";
 
@@ -13,12 +13,13 @@ export const userSignup = async (req:Request,res:Response,next :NextFunction)=>{
         if(existingUser){
             return res.status(401).send("User already registered");
         }
-        const hashedPassword = await hash(password,10);
+        const salt = await genSalt(10);
+        const hashedPassword = await hash(password,salt);
         const user = new User({name,email,password:hashedPassword});
         await user.save();
         
         // create token and store cookie
-        // clearCookie fn is used to remove any existing cookie before setting a new authentication toke cookie
+        // clearCookie fn is used to remove any existing cookie before setting a new authentication token cookie
         res.clearCookie(COOKIE_NAME, {
             httpOnly : true,
             domain : "localhost",
