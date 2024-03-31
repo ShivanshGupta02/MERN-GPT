@@ -4,16 +4,6 @@ import {hash,compare} from 'bcrypt';
 import { createToken } from "../utils/token-manager.js";
 import { COOKIE_NAME } from "../utils/constants.js";
 
-export const getAllUsers = async (req:Request,res:Response,next :NextFunction)=>{
-    // get all user from database
-    try {
-        const users = await User.find();
-        return res.status(200).json({message:"OK",users});
-    } catch (error) {
-        console.log(error);
-        return res.status(200).json({message:"ERROR", cause : error.message});
-    }
-}
 
 export const userSignup = async (req:Request,res:Response,next :NextFunction)=>{
     // user signup
@@ -57,11 +47,11 @@ export const userLogin = async(req:Request,res:Response,next:NextFunction)=>{
         const {email,password} = req.body;
         const user = await User.findOne({email});
         if(!user){
-         return res.status(401).send("User not registered");
+            return res.status(401).send("User not registered");
         }    
         const isPasswordCorrect = await compare(password, user.password);
         if(!isPasswordCorrect){
-         return res.status(403).send("Incorrect Password");
+            return res.status(403).send("Incorrect Password");
         }
         // create token and store cookie
         // clearCookie fn is used to remove any existing cookie before setting a new authentication toke cookie
@@ -70,8 +60,8 @@ export const userLogin = async(req:Request,res:Response,next:NextFunction)=>{
             domain : "localhost",
             path:"/"
         });
-
-
+        
+        
         const token = createToken(user._id.toString(), user.email, "7d");
         const expires = new Date();
         expires.setDate(expires.getDate()+7)
@@ -111,7 +101,7 @@ export const userLogout = async(req:Request, res:Response, next:NextFunction)=>{
         if(!user){
             return res.status(401).send("User not registered OR Token malfunctioned");
         }
-
+        
         res.clearCookie(COOKIE_NAME,{
             httpOnly:true,
             domain: "localhost",
@@ -124,5 +114,15 @@ export const userLogout = async(req:Request, res:Response, next:NextFunction)=>{
     }
 };
 
+// export const getAllUsers = async (req:Request,res:Response,next :NextFunction)=>{
+//     // get all user from database
+//     try {
+//         const users = await User.find();
+//         return res.status(200).json({message:"OK",users});
+//     } catch (error) {
+//         console.log(error);
+//         return res.status(200).json({message:"ERROR", cause : error.message});
+//     }
+// }
 
 
